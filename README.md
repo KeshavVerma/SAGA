@@ -49,3 +49,6 @@ Here is the updated flow:
 
 
 Now if updateInventory() method fails, then you call reversePayment() and then reverseOrder() and the order will be rolled back!
+
+# For Docker Kafka installation refer
+https://hub.docker.com/r/johnnypark/kafka-zookeeper/
