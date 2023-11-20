@@ -1,13 +1,13 @@
-package com.order.microservice;
+package com.payment.microservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MicroserviceApplication {
+public class PaymentMicroserviceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MicroserviceApplication.class, args);
+		SpringApplication.run(PaymentMicroserviceApplication.class, args);
 	}
 
 }

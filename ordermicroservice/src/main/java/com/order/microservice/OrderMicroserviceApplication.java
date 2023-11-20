@@ -1,13 +1,13 @@
-package com.shipment.microservice;
+package com.order.microservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MicroserviceApplication {
+public class OrderMicroserviceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MicroserviceApplication.class, args);
+		SpringApplication.run(OrderMicroserviceApplication.class, args);
 	}
 
 }
