@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.payment.microservice.clients.FeignApiClient;
 import com.payment.microservice.dto.CustomerOrder;
 import com.payment.microservice.entities.Payment;
 import com.payment.microservice.events.OrderEvent;
@@ -25,6 +26,9 @@ public class PaymentController {
 
     @Autowired
     private KafkaTemplate<String, OrderEvent> kafkaOrderTemplate;
+    
+    @Autowired
+    private FeignApiClient feignApiClient;
 
     @KafkaListener(topics = "new-orders", groupId = "orders-group")
     public void processPayment(String event) throws JsonMappingException, JsonProcessingException {
@@ -36,19 +40,27 @@ public class PaymentController {
         Payment payment = new Payment();
         try {
 
-            // save payment details in db
-            payment.setAmount(order.getAmount());
-            payment.setMode(order.getPaymentMode());
-            payment.setOrderId(order.getOrderId());
-            payment.setStatus("SUCCESS");
-            this.repository.save(payment);
+			// save payment details in db
+			payment.setAmount(order.getAmount());
+			payment.setMode(order.getPaymentMode());
+			payment.setOrderId(order.getOrderId());
+			// call card service for payment
+			boolean paymentStatus = feignApiClient.processCard(order.getPaymentMode());
+			System.out.println("************"+paymentStatus);
+			if (paymentStatus) {
+				payment.setStatus("SUCCESS");
+				this.repository.save(payment);
 
-            // publish payment created event for inventory microservice to consume.
+				// publish payment created event for inventory microservice to consume.
 
-            PaymentEvent paymentEvent = new PaymentEvent();
-            paymentEvent.setOrder(orderEvent.getOrder());
-            paymentEvent.setType("PAYMENT_CREATED");
-            this.kafkaTemplate.send("new-payments", paymentEvent);
+				PaymentEvent paymentEvent = new PaymentEvent();
+				paymentEvent.setOrder(orderEvent.getOrder());
+				paymentEvent.setType("PAYMENT_CREATED");
+				this.kafkaTemplate.send("new-payments", paymentEvent);
+			} else {
+				throw new Exception("Payment Fail");
+			}
+            
         } catch (Exception e) {
 
             payment.setOrderId(order.getOrderId());
