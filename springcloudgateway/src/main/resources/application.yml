@@ -1,0 +1,22 @@
+server:
+ port: 9090
+ 
+ 
+spring:
+ application:
+  name: gateway-app
+ cloud:
+  gateway:
+   routes:
+    - id: orderClient
+      uri: lb://ORDER-SERVICE
+      predicates:
+       - Path=/orders
+    - id: inventoryClient
+      uri: lb://INVENTORY-SERVICE
+      predicates:
+       - Path=/inventory 
+eureka:
+   client:
+      serviceUrl:
+         defaultZone: http://localhost:8761/eureka
