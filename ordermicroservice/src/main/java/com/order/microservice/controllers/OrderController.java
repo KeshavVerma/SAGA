@@ -8,6 +8,8 @@ import com.order.microservice.entities.OrderEntity;
 import com.order.microservice.events.OrderEvent;
 import com.order.microservice.repositories.OrderRepository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -19,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class OrderController {
+	
+	Logger logger = LoggerFactory.getLogger("ORDER-SERVICE");
 
     @Autowired
     private OrderRepository repository;
@@ -29,6 +33,8 @@ public class OrderController {
     @PostMapping("/orders")
     public void createOrder(@RequestBody CustomerOrder customerOrder) {
 
+    	logger.info("---In Order createOrder Method---");
+    	
         OrderEntity order = new OrderEntity();
         try {
             // save order in database

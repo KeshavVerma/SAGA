@@ -1,10 +1,5 @@
 package com.payment.microservice.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.stereotype.Controller;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,8 +10,17 @@ import com.payment.microservice.events.OrderEvent;
 import com.payment.microservice.events.PaymentEvent;
 import com.payment.microservice.repositories.PaymentRepository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.stereotype.Controller;
+
 @Controller
 public class PaymentController {
+	
+	Logger logger = LoggerFactory.getLogger("PAYMENT-SERVICE");
 
     @Autowired
     private PaymentRepository repository;
@@ -33,7 +37,9 @@ public class PaymentController {
     @KafkaListener(topics = "new-orders", groupId = "orders-group")
     public void processPayment(String event) throws JsonMappingException, JsonProcessingException {
 
-        System.out.println("Recieved event" + event);
+    	logger.info("---In Payment processPayment Method---");
+    	
+    	System.out.println("Recieved event" + event);
         OrderEvent orderEvent = new ObjectMapper().readValue(event, OrderEvent.class);
 
         CustomerOrder order = orderEvent.getOrder();

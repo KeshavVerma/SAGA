@@ -1,14 +1,5 @@
 package com.inventory.microservice.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.core.KafkaTemplate;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,8 +10,19 @@ import com.inventory.microservice.events.InventoryEvent;
 import com.inventory.microservice.events.PaymentEvent;
 import com.inventory.microservice.repositories.InventoryRepository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
 @RestController
 public class InventoryController {
+	
+	Logger logger = LoggerFactory.getLogger("INVENTORY-SERVICE");
 
     @Autowired
     private InventoryRepository repository;
@@ -33,6 +35,8 @@ public class InventoryController {
 
     @KafkaListener(topics = "new-payments", groupId = "payments-group")
     public void updateInventory(String paymentEvent) throws JsonMappingException, JsonProcessingException {
+    	
+    	logger.info("---In Inventory updateInventory Method---");
 
         InventoryEvent event = new InventoryEvent();
 
