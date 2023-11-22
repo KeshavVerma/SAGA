@@ -20,7 +20,10 @@ spring:
       uri: lb://CREDITCARD-SERVICE
       predicates:
        - Path=/cards/**
-eureka:
-   client:
-      serviceUrl:
-         defaultZone: http://localhost:8761/eureka
+#Read below property from Config Server
+#eureka:
+#   client:
+#      serviceUrl:
+#         defaultZone: http://localhost:8761/eureka
+ config:
+  import: optional:configserver:http://localhost:9191
