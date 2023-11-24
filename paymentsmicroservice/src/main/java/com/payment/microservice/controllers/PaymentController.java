@@ -66,11 +66,13 @@ public class PaymentController {
 				paymentEvent.setType("PAYMENT_CREATED");
 				this.kafkaTemplate.send("new-payments", paymentEvent);
 			} else {
+				logger.error("--Payment Fail with status "+paymentStatus);
 				throw new Exception("Payment Fail");
 			}
             
         } catch (Exception e) {
-
+        	
+        	logger.error("--In Payment Exception "+e.getMessage());
             payment.setOrderId(order.getOrderId());
             payment.setStatus("FAILED");
             repository.save(payment);
