@@ -52,8 +52,10 @@ public class OrderController {
             event.setOrder(customerOrder);
             event.setType("ORDER_CREATED");
             this.kafkaTemplate.send("new-orders", event);
+            
         } catch (Exception e) {
-
+        	
+        	logger.error("---In Order createOrder Method Exception--- "+e.getMessage());
             order.setStatus("FAILED");
             this.repository.save(order);
 
