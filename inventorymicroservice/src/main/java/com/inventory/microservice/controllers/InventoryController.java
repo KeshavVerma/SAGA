@@ -64,7 +64,7 @@ public class InventoryController {
 
             event.setType("INVENTORY_UPDATED");
             event.setOrder(p.getOrder());
-            this.kafkaTemplate.send("new-inventory", event);
+            this.kafkaTemplate.send("update-inventory", event);
 
         } catch (Exception e) {
 
@@ -82,6 +82,7 @@ public class InventoryController {
     public void addInventory(@RequestBody Stock stock) {
 
         Iterable<Inventory> items = this.repository.findByItem(stock.getItem());
+        InventoryEvent event = new InventoryEvent();
 
         if (items.iterator().hasNext()) {
 
@@ -89,6 +90,10 @@ public class InventoryController {
 
                 i.setQuantity(stock.getQuantity() + i.getQuantity());
                 this.repository.save(i);
+                
+                event.setType("INVENTORY_UPDATED");
+                event.setStock(stock);
+                this.kafkaTemplate.send("update-inventory", event);
             });
         } else {
 
@@ -96,6 +101,10 @@ public class InventoryController {
             i.setItem(stock.getItem());
             i.setQuantity(stock.getQuantity());
             this.repository.save(i);
+            
+            event.setType("INVENTORY_CREATED");
+            event.setStock(stock);
+            this.kafkaTemplate.send("new-inventory", event);
         }
     }
 

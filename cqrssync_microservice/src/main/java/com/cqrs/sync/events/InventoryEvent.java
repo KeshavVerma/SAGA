@@ -1,7 +1,7 @@
-package com.shipment.microservice.events;
+package com.cqrs.sync.events;
 
-import com.shipment.microservice.dto.CustomerOrder;
-import com.shipment.microservice.dto.Stock;
+import com.cqrs.sync.dto.CustomerOrder;
+import com.cqrs.sync.dto.Stock;
 
 public class InventoryEvent {
 
@@ -34,5 +34,5 @@ public class InventoryEvent {
 	public void setStock(Stock stock) {
 		this.stock = stock;
 	}
-    
+
 }

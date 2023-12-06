@@ -28,7 +28,7 @@ public class ShipmentController {
     @Autowired
     private KafkaTemplate<String, InventoryEvent> kafkaTemplate;
 
-    @KafkaListener(topics = "new-inventory", groupId = "inventory-group")
+    @KafkaListener(topics = "update-inventory", groupId = "inventory-group")
     public void shipOrder(String event) throws JsonMappingException, JsonProcessingException {
     	
     	logger.info("---In Shipment shipOrder Method---");
