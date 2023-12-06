@@ -1,0 +1,16 @@
+Splunk Docker
+--------------
+
+https://docs.splunk.com/Documentation/Splunk/9.1.1/Installation/DeployandrunSplunkEnterpriseinsideDockercontainers
+
+docker run -d -p 8000:8000 -e SPLUNK_START_ARGS=--accept-license -e SPLUNK_PASSWORD=adminKK@123 splunk/splunk:latest
+
+Splunk Forwarder Docker for from client to Server
+-------------------------------------------------
+https://habr.com/en/articles/447532/
+
+docker run -d  -p 9997:9997 -e SPLUNK_START_ARGS=--accept-license -e SPLUNK_PASSWORD=adminKK@123 splunk/universalforwarder:latest
+
+Kafka-Zookeeper Docker
+-----------------------
+docker run -p 2181:2181 -p 9092:9092 -e ADVERTISED_HOST=127.0.0.1  -e NUM_PARTITIONS=10 johnnypark/kafka-zookeeper
