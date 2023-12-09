@@ -13,6 +13,8 @@ public class CustomerOrder {
     private Long orderId;
 
     private String address;
+    
+    private String user;
 
     public String getItem() {
         return item;
@@ -62,10 +64,19 @@ public class CustomerOrder {
         this.paymentMode = paymentMode;
     }
 
-    @Override
-    public String toString() {
-        return "CustomerOrder [item=" + item + ", quantity=" + quantity + ", amount=" + amount + ", paymentMode="
-                + paymentMode + ", orderId=" + orderId + ", address=" + address + "]";
-    }
+    
+    public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
+	}
+
+	@Override
+	public String toString() {
+		return "CustomerOrder [item=" + item + ", quantity=" + quantity + ", amount=" + amount + ", paymentMode="
+				+ paymentMode + ", orderId=" + orderId + ", address=" + address + ", user=" + user + "]";
+	}
 
 }

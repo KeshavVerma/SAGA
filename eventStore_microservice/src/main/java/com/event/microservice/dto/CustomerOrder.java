@@ -1,6 +1,11 @@
 package com.event.microservice.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class CustomerOrder {
+	
+	@JsonIgnore
+	private String eventOf ="ORDER";
 
     private String item;
 
@@ -13,6 +18,8 @@ public class CustomerOrder {
     private Long orderId;
 
     private String address;
+    
+    private String user;
 
     public String getItem() {
         return item;
@@ -62,4 +69,20 @@ public class CustomerOrder {
         this.paymentMode = paymentMode;
     }
 
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
+	}
+
+	public String getEventOf() {
+		return eventOf;
+	}
+
+	public void setEventOf(String eventOf) {
+		this.eventOf = eventOf;
+	}
+    
 }

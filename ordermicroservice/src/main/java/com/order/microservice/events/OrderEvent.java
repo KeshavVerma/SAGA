@@ -5,7 +5,7 @@ import com.order.microservice.dto.CustomerOrder;
 public class OrderEvent {
 
     private String type;
-
+    
     private CustomerOrder order;
 
     public String getType() {
@@ -24,4 +24,5 @@ public class OrderEvent {
         this.order = order;
     }
 
+    
 }

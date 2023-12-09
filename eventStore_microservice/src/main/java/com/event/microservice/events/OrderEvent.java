@@ -1,6 +1,6 @@
-package com.payment.microservice.events;
+package com.event.microservice.events;
 
-import com.payment.microservice.dto.CustomerOrder;
+import com.event.microservice.dto.CustomerOrder;
 
 public class OrderEvent {
 

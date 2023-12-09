@@ -13,6 +13,8 @@ public class CustomerOrder {
     private Long orderId;
 
     private String address;
+    
+    private String user;
 
     public String getItem() {
         return item;
@@ -61,5 +63,13 @@ public class CustomerOrder {
     public void setPaymentMode(String paymentMode) {
         this.paymentMode = paymentMode;
     }
+
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
+	}
 
 }

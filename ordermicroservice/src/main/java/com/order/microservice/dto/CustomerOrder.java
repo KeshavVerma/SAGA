@@ -13,6 +13,8 @@ public class CustomerOrder {
     private long orderId;
 
     private String address;
+    
+    private String user;
 
     public String getItem() {
         return item;
@@ -61,5 +63,13 @@ public class CustomerOrder {
     public void setAddress(String address) {
         this.address = address;
     }
+
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
+	}
 
 }

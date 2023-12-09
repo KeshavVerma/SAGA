@@ -10,9 +10,11 @@ public class CustomerOrder {
 
     private String paymentMode;
 
-    private Long orderId;
+    private long orderId;
 
     private String address;
+    
+    private String user;
 
     public String getItem() {
         return item;
@@ -38,12 +40,20 @@ public class CustomerOrder {
         this.amount = amount;
     }
 
-    public Long getOrderId() {
+    public long getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Long orderId) {
+    public void setOrderId(long orderId) {
         this.orderId = orderId;
+    }
+
+    public String getPaymentMode() {
+        return paymentMode;
+    }
+
+    public void setPaymentMode(String paymentMode) {
+        this.paymentMode = paymentMode;
     }
 
     public String getAddress() {
@@ -54,12 +64,12 @@ public class CustomerOrder {
         this.address = address;
     }
 
-    public String getPaymentMode() {
-        return paymentMode;
-    }
+	public String getUser() {
+		return user;
+	}
 
-    public void setPaymentMode(String paymentMode) {
-        this.paymentMode = paymentMode;
-    }
+	public void setUser(String user) {
+		this.user = user;
+	}
 
 }

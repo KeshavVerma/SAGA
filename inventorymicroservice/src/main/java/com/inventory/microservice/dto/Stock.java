@@ -5,6 +5,8 @@ public class Stock {
     private String item;
 
     private int quantity;
+    
+    private String user;
 
     public String getItem() {
         return item;
@@ -21,5 +23,13 @@ public class Stock {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
+	}
 
 }

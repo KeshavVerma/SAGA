@@ -3,6 +3,8 @@ package com.event.microservice.services;
 import java.time.LocalDateTime;
 
 import com.event.microservice.entities.EventStore;
+import com.event.microservice.events.OrderCreatedEvent;
+import com.event.microservice.events.OrderReversedEvent;
 import com.event.microservice.events.StockAddedEvent;
 import com.event.microservice.events.StockRemovedEvent;
 import com.event.microservice.repositories.EventRepository;
@@ -40,7 +42,38 @@ public class EventService {
 		eventStore.setEventData(new ObjectMapper().writeValueAsString(event.getStockDetails()));
 
 		eventStore.setEventType("STOCK_REMOVED");
+		
 		eventStore.setEventOf(event.getStockDetails().getEventOf());
+
+		eventStore.setEventTime(LocalDateTime.now());
+
+		repo.save(eventStore);
+	}
+	
+	public void addEvent(OrderCreatedEvent event) throws JsonProcessingException {
+
+		EventStore eventStore = new EventStore();
+
+		eventStore.setEventData(new ObjectMapper().writeValueAsString(event.getOrderDetails()));
+
+		eventStore.setEventType("ORDER_ADDED");
+
+		eventStore.setEventOf(event.getOrderDetails().getEventOf());
+
+		eventStore.setEventTime(LocalDateTime.now());
+
+		repo.save(eventStore);
+	}
+	
+	public void addEvent(OrderReversedEvent event) throws JsonProcessingException {
+
+		EventStore eventStore = new EventStore();
+
+		eventStore.setEventData(new ObjectMapper().writeValueAsString(event.getOrderDetails()));
+
+		eventStore.setEventType("ORDER_REMOVED");
+		
+		eventStore.setEventOf(event.getOrderDetails().getEventOf());
 
 		eventStore.setEventTime(LocalDateTime.now());
 
