@@ -38,16 +38,15 @@ public class ShipmentController {
         CustomerOrder order = inventoryEvent.getOrder();
         try {
 
-            if (order.getAddress() == null) {
-                throw new Exception("Address not present");
-            }
-
-            shipment.setAddress(order.getAddress());
-            shipment.setOrderId(order.getOrderId());
-
-            shipment.setStatus("success");
-
-            this.repository.save(shipment);
+            if (order!=null) {
+				if (order.getAddress() == null) {
+					throw new Exception("Address not present");
+				}
+				shipment.setAddress(order.getAddress());
+				shipment.setOrderId(order.getOrderId());
+				shipment.setStatus("success");
+				this.repository.save(shipment);
+			}
 
             // do other shipment logic ..
 
