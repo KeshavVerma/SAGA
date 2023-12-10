@@ -7,6 +7,8 @@ public class Payment {
     private Long orderId;
 
     private double amount;
+    
+    private String user;
 
     public String getMode() {
         return mode;
@@ -31,5 +33,13 @@ public class Payment {
     public void setAmount(double amount) {
         this.amount = amount;
     }
+
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
+	}
 
 }

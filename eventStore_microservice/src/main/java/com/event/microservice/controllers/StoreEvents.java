@@ -1,11 +1,15 @@
 package com.event.microservice.controllers;
 
 import com.event.microservice.dto.CustomerOrder;
+import com.event.microservice.dto.Payment;
 import com.event.microservice.dto.Stock;
 import com.event.microservice.events.InventoryEvent;
 import com.event.microservice.events.OrderCreatedEvent;
 import com.event.microservice.events.OrderEvent;
 import com.event.microservice.events.OrderReversedEvent;
+import com.event.microservice.events.PaymentEvent;
+import com.event.microservice.events.PaymentFailueEvent;
+import com.event.microservice.events.PaymentSuccessEvent;
 import com.event.microservice.events.StockAddedEvent;
 import com.event.microservice.events.StockRemovedEvent;
 import com.event.microservice.services.EventService;
@@ -101,4 +105,44 @@ public class StoreEvents {
 		}
 	}
 
+	@KafkaListener(topics = "new-payments", groupId = "newpayments-group")
+	public void updateInventory(String event) {
+
+		try {
+			PaymentEvent paymentEvent = new ObjectMapper().readValue(event, PaymentEvent.class);
+			CustomerOrder order;
+			order = paymentEvent.getOrder();
+			Payment payment = new Payment();
+			payment.setAmount(order.getAmount());
+			payment.setMode(order.getPaymentMode());
+			payment.setOrderId(order.getOrderId());
+			payment.setUser(order.getUser());
+			PaymentSuccessEvent paymentSuccessEvent = PaymentSuccessEvent.builder().paymentDetails(payment).build();
+			eventService.addEvent(paymentSuccessEvent);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@KafkaListener(topics = "reversed-payments", groupId = "revpayments-group")
+	public void reversePayment(String event) {
+
+		try {
+			PaymentEvent paymentEvent = new ObjectMapper().readValue(event, PaymentEvent.class);
+			CustomerOrder order;
+			order = paymentEvent.getOrder();
+			Payment payment = new Payment();
+			payment.setAmount(order.getAmount());
+			payment.setMode(order.getPaymentMode());
+			payment.setOrderId(order.getOrderId());
+			payment.setUser(order.getUser());
+			PaymentFailueEvent paymentFailueEvent = PaymentFailueEvent.builder().paymentDetails(payment).build();
+			eventService.addEvent(paymentFailueEvent);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
 }
