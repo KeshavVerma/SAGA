@@ -10,11 +10,15 @@ public class CustomerOrder {
 
     private String paymentMode;
 
-    private Long orderId;
+    private long orderId;
 
     private String address;
     
     private String user;
+    
+    private long paymentId;
+    
+    private String failIn;
 
     public String getItem() {
         return item;
@@ -40,11 +44,11 @@ public class CustomerOrder {
         this.amount = amount;
     }
 
-    public Long getOrderId() {
+    public long getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Long orderId) {
+    public void setOrderId(long orderId) {
         this.orderId = orderId;
     }
 
@@ -70,6 +74,22 @@ public class CustomerOrder {
 
 	public void setUser(String user) {
 		this.user = user;
+	}
+
+	public long getPaymentId() {
+		return paymentId;
+	}
+
+	public void setPaymentId(long paymentId) {
+		this.paymentId = paymentId;
+	}
+
+	public String getFailIn() {
+		return failIn;
+	}
+
+	public void setFailIn(String failIn) {
+		this.failIn = failIn;
 	}
 
 }

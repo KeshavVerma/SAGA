@@ -10,11 +10,16 @@ public class CustomerOrder {
 
     private String paymentMode;
 
-    private Long orderId;
+    private long orderId;
 
     private String address;
     
     private String user;
+    
+    private long paymentId;
+    
+    private String failIn;
+
 
     public String getItem() {
         return item;
@@ -40,20 +45,12 @@ public class CustomerOrder {
         this.amount = amount;
     }
 
-    public Long getOrderId() {
+    public long getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Long orderId) {
+    public void setOrderId(long orderId) {
         this.orderId = orderId;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     public String getPaymentMode() {
@@ -64,8 +61,15 @@ public class CustomerOrder {
         this.paymentMode = paymentMode;
     }
 
-    
-    public String getUser() {
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+	public String getUser() {
 		return user;
 	}
 
@@ -73,10 +77,20 @@ public class CustomerOrder {
 		this.user = user;
 	}
 
-	@Override
-	public String toString() {
-		return "CustomerOrder [item=" + item + ", quantity=" + quantity + ", amount=" + amount + ", paymentMode="
-				+ paymentMode + ", orderId=" + orderId + ", address=" + address + ", user=" + user + "]";
+	public long getPaymentId() {
+		return paymentId;
+	}
+
+	public void setPaymentId(long paymentId) {
+		this.paymentId = paymentId;
+	}
+
+	public String getFailIn() {
+		return failIn;
+	}
+
+	public void setFailIn(String failIn) {
+		this.failIn = failIn;
 	}
 
 }

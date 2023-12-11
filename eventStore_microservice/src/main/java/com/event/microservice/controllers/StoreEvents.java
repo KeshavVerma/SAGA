@@ -2,19 +2,22 @@ package com.event.microservice.controllers;
 
 import com.event.microservice.dto.CustomerOrder;
 import com.event.microservice.dto.Payment;
+import com.event.microservice.dto.Shipment;
 import com.event.microservice.dto.Stock;
 import com.event.microservice.events.InventoryEvent;
 import com.event.microservice.events.OrderCreatedEvent;
 import com.event.microservice.events.OrderEvent;
 import com.event.microservice.events.OrderReversedEvent;
 import com.event.microservice.events.PaymentEvent;
-import com.event.microservice.events.PaymentFailueEvent;
+import com.event.microservice.events.PaymentFailureEvent;
+import com.event.microservice.events.PaymentReversedEvent;
 import com.event.microservice.events.PaymentSuccessEvent;
+import com.event.microservice.events.ShipmentFailureEvent;
+import com.event.microservice.events.ShipmentSuccessEvent;
 import com.event.microservice.events.StockAddedEvent;
+import com.event.microservice.events.StockFailureEvent;
 import com.event.microservice.events.StockRemovedEvent;
 import com.event.microservice.services.EventService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +51,13 @@ public class StoreEvents {
 				stock.setUser(inventoryEvent.getOrder().getUser());
 				StockRemovedEvent eventRec = StockRemovedEvent.builder().stockDetails(stock).build();
 				eventService.addEvent(eventRec);
+				
+				//shipment event if success
+				Shipment shipment = new Shipment();
+				shipment.setOrderId(inventoryEvent.getOrder().getOrderId());
+				shipment.setAddress(inventoryEvent.getOrder().getAddress());
+				ShipmentSuccessEvent eventShip = ShipmentSuccessEvent.builder().shipmentDetails(shipment).build();
+				eventService.addEvent(eventShip);
 			}
 			
 		} catch (Exception e) {
@@ -67,7 +77,14 @@ public class StoreEvents {
 			stock.setUser(inventoryEvent.getOrder().getUser());
 			StockAddedEvent eventRec = StockAddedEvent.builder().stockDetails(stock).build();
 			eventService.addEvent(eventRec);
-			
+			/*
+			//shipment event if fail
+			Shipment shipment = new Shipment();
+			shipment.setOrderId(inventoryEvent.getOrder().getOrderId());
+			shipment.setAddress(inventoryEvent.getOrder().getAddress());
+			ShipmentFailureEvent eventShip = ShipmentFailureEvent.builder().shipmentDetails(shipment).build();
+			eventService.addEvent(eventShip);
+			*/
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -99,6 +116,40 @@ public class StoreEvents {
 			order = orderEvent.getOrder();
 			OrderReversedEvent reverseorderEvent = OrderReversedEvent.builder().orderDetails(order).build();
 			eventService.addEvent(reverseorderEvent);
+			/*
+			if (order.getPaymentId() == 0L) {
+				Payment payment = new Payment();
+				payment.setAmount(order.getAmount());
+				payment.setMode(order.getPaymentMode());
+				payment.setOrderId(order.getOrderId());
+				payment.setUser(order.getUser());
+				PaymentFailureEvent paymentFailureEvent = PaymentFailureEvent.builder().paymentDetails(payment).build();
+				eventService.addEvent(paymentFailureEvent);
+			}
+			*/
+			if (order.getFailIn().equals("PAYMENT")) {
+				Payment payment = new Payment();
+				payment.setAmount(order.getAmount());
+				payment.setMode(order.getPaymentMode());
+				payment.setOrderId(order.getOrderId());
+				payment.setUser(order.getUser());
+				PaymentFailureEvent paymentFailureEvent = PaymentFailureEvent.builder().paymentDetails(payment).build();
+				eventService.addEvent(paymentFailureEvent);
+			} else if (order.getFailIn().equals("INVENTORY")) {				
+				Stock stock = new Stock();
+				stock.setItem(order.getItem());
+				stock.setQuantity(order.getQuantity());
+				stock.setOrderId(order.getOrderId());
+				stock.setUser(order.getUser());
+				StockFailureEvent eventRec = StockFailureEvent.builder().stockDetails(stock).build();
+				eventService.addEvent(eventRec);
+			} else if (order.getFailIn().equals("SHIPMENT")) {	
+				Shipment shipment = new Shipment();
+				shipment.setOrderId(order.getOrderId());
+				shipment.setAddress(order.getAddress());
+				ShipmentFailureEvent eventShip = ShipmentFailureEvent.builder().shipmentDetails(shipment).build();
+				eventService.addEvent(eventShip);
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -137,8 +188,8 @@ public class StoreEvents {
 			payment.setMode(order.getPaymentMode());
 			payment.setOrderId(order.getOrderId());
 			payment.setUser(order.getUser());
-			PaymentFailueEvent paymentFailueEvent = PaymentFailueEvent.builder().paymentDetails(payment).build();
-			eventService.addEvent(paymentFailueEvent);
+			PaymentReversedEvent paymentReversedEvent = PaymentReversedEvent.builder().paymentDetails(payment).build();
+			eventService.addEvent(paymentReversedEvent);
 
 		} catch (Exception e) {
 			e.printStackTrace();

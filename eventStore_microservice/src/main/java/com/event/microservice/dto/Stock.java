@@ -13,6 +13,8 @@ public class Stock {
 	private String item;
 
 	private int quantity;
+	
+	private long orderId;
 
 	private String user;
 	

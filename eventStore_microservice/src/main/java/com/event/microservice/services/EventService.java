@@ -5,9 +5,13 @@ import java.time.LocalDateTime;
 import com.event.microservice.entities.EventStore;
 import com.event.microservice.events.OrderCreatedEvent;
 import com.event.microservice.events.OrderReversedEvent;
-import com.event.microservice.events.PaymentFailueEvent;
+import com.event.microservice.events.PaymentFailureEvent;
+import com.event.microservice.events.PaymentReversedEvent;
 import com.event.microservice.events.PaymentSuccessEvent;
+import com.event.microservice.events.ShipmentFailureEvent;
+import com.event.microservice.events.ShipmentSuccessEvent;
 import com.event.microservice.events.StockAddedEvent;
+import com.event.microservice.events.StockFailureEvent;
 import com.event.microservice.events.StockRemovedEvent;
 import com.event.microservice.repositories.EventRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -52,6 +56,20 @@ public class EventService {
 		repo.save(eventStore);
 	}
 	
+	public void addEvent(StockFailureEvent event) throws JsonProcessingException {
+
+		EventStore eventStore = new EventStore();
+
+		eventStore.setEventData(new ObjectMapper().writeValueAsString(event.getStockDetails()));
+
+		eventStore.setEventType("STOCK_FAILURE");
+		
+		eventStore.setEventOf(event.getStockDetails().getEventOf());
+
+		eventStore.setEventTime(LocalDateTime.now());
+
+		repo.save(eventStore);
+	}
 	public void addEvent(OrderCreatedEvent event) throws JsonProcessingException {
 
 		EventStore eventStore = new EventStore();
@@ -97,7 +115,7 @@ public class EventService {
 		repo.save(eventStore);
 	}
 	
-	public void addEvent(PaymentFailueEvent event) throws JsonProcessingException {
+	public void addEvent(PaymentFailureEvent event) throws JsonProcessingException {
 
 		EventStore eventStore = new EventStore();
 
@@ -111,7 +129,51 @@ public class EventService {
 
 		repo.save(eventStore);
 	}
+	
+	public void addEvent(PaymentReversedEvent event) throws JsonProcessingException {
 
+		EventStore eventStore = new EventStore();
+
+		eventStore.setEventData(new ObjectMapper().writeValueAsString(event.getPaymentDetails()));
+
+		eventStore.setEventType("PAYMENT_REVERSED");
+		
+		eventStore.setEventOf(event.getPaymentDetails().getEventOf());
+
+		eventStore.setEventTime(LocalDateTime.now());
+
+		repo.save(eventStore);
+	}
+
+	public void addEvent(ShipmentSuccessEvent event) throws JsonProcessingException {
+
+		EventStore eventStore = new EventStore();
+
+		eventStore.setEventData(new ObjectMapper().writeValueAsString(event.getShipmentDetails()));
+
+		eventStore.setEventType("SHIPMENT_SUCCESS");
+		
+		eventStore.setEventOf(event.getShipmentDetails().getEventOf());
+
+		eventStore.setEventTime(LocalDateTime.now());
+
+		repo.save(eventStore);
+	}
+	
+	public void addEvent(ShipmentFailureEvent event) throws JsonProcessingException {
+
+		EventStore eventStore = new EventStore();
+
+		eventStore.setEventData(new ObjectMapper().writeValueAsString(event.getShipmentDetails()));
+
+		eventStore.setEventType("SHIPMENT_FAILURE");
+		
+		eventStore.setEventOf(event.getShipmentDetails().getEventOf());
+
+		eventStore.setEventTime(LocalDateTime.now());
+
+		repo.save(eventStore);
+	}
 	
 	public Iterable<EventStore> fetchAllEvents(String name) {
 

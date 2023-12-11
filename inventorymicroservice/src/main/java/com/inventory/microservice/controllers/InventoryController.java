@@ -63,13 +63,14 @@ public class InventoryController {
                     });
 
             event.setType("INVENTORY_UPDATED");
-            event.setOrder(p.getOrder());
+            event.setOrder(order);
             this.kafkaTemplate.send("update-inventory", event);
 
         } catch (Exception e) {
 
             // reverse previous task
             PaymentEvent pe = new PaymentEvent();
+            order.setFailIn("INVENTORY");
             pe.setOrder(order);
             pe.setType("PAYMENT_REVERSED");
             this.kafkaPaymentTemplate.send("reversed-payments", pe);

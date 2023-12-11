@@ -57,12 +57,12 @@ public class PaymentController {
 			System.out.println("************"+paymentStatus);
 			if (paymentStatus) {
 				payment.setStatus("SUCCESS");
-				this.repository.save(payment);
-
+				payment = this.repository.save(payment);
+				order.setPaymentId(payment.getId());
 				// publish payment created event for inventory microservice to consume.
 
 				PaymentEvent paymentEvent = new PaymentEvent();
-				paymentEvent.setOrder(orderEvent.getOrder());
+				paymentEvent.setOrder(order);
 				paymentEvent.setType("PAYMENT_CREATED");
 				this.kafkaTemplate.send("new-payments", paymentEvent);
 			} else {
@@ -79,6 +79,7 @@ public class PaymentController {
 
             // reverse previous task
             OrderEvent oe = new OrderEvent();
+            order.setFailIn("PAYMENT");
             oe.setOrder(order);
             oe.setType("ORDER_REVERSED");
             this.kafkaOrderTemplate.send("reversed-orders", orderEvent);

@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Builder
 @Data
-public class PaymentFailueEvent {
+public class PaymentReversedEvent {
 	
 	private Payment paymentDetails;
 	

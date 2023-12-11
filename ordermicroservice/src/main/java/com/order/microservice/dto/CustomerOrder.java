@@ -15,6 +15,11 @@ public class CustomerOrder {
     private String address;
     
     private String user;
+    
+    private long paymentId;
+    
+    private String failIn;
+
 
     public String getItem() {
         return item;
@@ -70,6 +75,22 @@ public class CustomerOrder {
 
 	public void setUser(String user) {
 		this.user = user;
+	}
+
+	public long getPaymentId() {
+		return paymentId;
+	}
+
+	public void setPaymentId(long paymentId) {
+		this.paymentId = paymentId;
+	}
+
+	public String getFailIn() {
+		return failIn;
+	}
+
+	public void setFailIn(String failIn) {
+		this.failIn = failIn;
 	}
 
 }

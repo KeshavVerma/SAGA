@@ -58,6 +58,7 @@ public class ShipmentController {
             InventoryEvent reverseEvent = new InventoryEvent();
 
             reverseEvent.setType("INVENTORY_REVERSED");
+            order.setFailIn("SHIPMENT");
             System.out.println(order);
             reverseEvent.setOrder(order);
             this.kafkaTemplate.send("reversed-inventory", reverseEvent);
