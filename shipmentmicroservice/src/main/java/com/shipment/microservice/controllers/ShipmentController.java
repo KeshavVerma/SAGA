@@ -46,6 +46,7 @@ public class ShipmentController {
 				shipment.setOrderId(order.getOrderId());
 				shipment.setStatus("success");
 				this.repository.save(shipment);
+				this.kafkaTemplate.send("shipment-success", inventoryEvent);
 			}
 
             // do other shipment logic ..

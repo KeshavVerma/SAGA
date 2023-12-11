@@ -18,6 +18,8 @@ import com.event.microservice.events.StockAddedEvent;
 import com.event.microservice.events.StockFailureEvent;
 import com.event.microservice.events.StockRemovedEvent;
 import com.event.microservice.services.EventService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,16 +50,11 @@ public class StoreEvents {
 				stock = new Stock();
 				stock.setItem(inventoryEvent.getOrder().getItem());
 				stock.setQuantity(inventoryEvent.getOrder().getQuantity());
+				stock.setOrderId(inventoryEvent.getOrder().getOrderId());
 				stock.setUser(inventoryEvent.getOrder().getUser());
 				StockRemovedEvent eventRec = StockRemovedEvent.builder().stockDetails(stock).build();
 				eventService.addEvent(eventRec);
 
-				// shipment event if success
-				Shipment shipment = new Shipment();
-				shipment.setOrderId(inventoryEvent.getOrder().getOrderId());
-				shipment.setAddress(inventoryEvent.getOrder().getAddress());
-				ShipmentSuccessEvent eventShip = ShipmentSuccessEvent.builder().shipmentDetails(shipment).build();
-				eventService.addEvent(eventShip);
 			}
 
 		} catch (Exception e) {
@@ -77,6 +74,21 @@ public class StoreEvents {
 			stock.setUser(inventoryEvent.getOrder().getUser());
 			StockAddedEvent eventRec = StockAddedEvent.builder().stockDetails(stock).build();
 			eventService.addEvent(eventRec);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@KafkaListener(topics = "shipment-success", groupId = "shipsuccess-group")
+	public void shipmentSuccessEvent(String event) {
+
+		try {
+			InventoryEvent inventoryEvent = new ObjectMapper().readValue(event, InventoryEvent.class);
+			Shipment shipment = new Shipment();
+			shipment.setOrderId(inventoryEvent.getOrder().getOrderId());
+			shipment.setAddress(inventoryEvent.getOrder().getAddress());
+			ShipmentSuccessEvent eventShip = ShipmentSuccessEvent.builder().shipmentDetails(shipment).build();
+			eventService.addEvent(eventShip);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
