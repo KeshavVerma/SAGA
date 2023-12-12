@@ -37,6 +37,8 @@ public class EventService {
 		eventStore.setEventOf(event.getStockDetails().getEventOf());
 
 		eventStore.setEventTime(LocalDateTime.now());
+		
+		eventStore.setOrderId(event.getStockDetails().getOrderId());
 
 		repo.save(eventStore);
 	}
@@ -53,6 +55,8 @@ public class EventService {
 
 		eventStore.setEventTime(LocalDateTime.now());
 
+		eventStore.setOrderId(event.getStockDetails().getOrderId());
+		
 		repo.save(eventStore);
 	}
 	
@@ -67,6 +71,8 @@ public class EventService {
 		eventStore.setEventOf(event.getStockDetails().getEventOf());
 
 		eventStore.setEventTime(LocalDateTime.now());
+		
+		eventStore.setOrderId(event.getStockDetails().getOrderId());
 
 		repo.save(eventStore);
 	}
@@ -81,6 +87,8 @@ public class EventService {
 		eventStore.setEventOf(event.getOrderDetails().getEventOf());
 
 		eventStore.setEventTime(LocalDateTime.now());
+		
+		eventStore.setOrderId(event.getOrderDetails().getOrderId());
 
 		repo.save(eventStore);
 	}
@@ -96,6 +104,8 @@ public class EventService {
 		eventStore.setEventOf(event.getOrderDetails().getEventOf());
 
 		eventStore.setEventTime(LocalDateTime.now());
+		
+		eventStore.setOrderId(event.getOrderDetails().getOrderId());
 
 		repo.save(eventStore);
 	}
@@ -111,6 +121,8 @@ public class EventService {
 		eventStore.setEventOf(event.getPaymentDetails().getEventOf());
 
 		eventStore.setEventTime(LocalDateTime.now());
+		
+		eventStore.setOrderId(event.getPaymentDetails().getOrderId());
 
 		repo.save(eventStore);
 	}
@@ -126,6 +138,8 @@ public class EventService {
 		eventStore.setEventOf(event.getPaymentDetails().getEventOf());
 
 		eventStore.setEventTime(LocalDateTime.now());
+		
+		eventStore.setOrderId(event.getPaymentDetails().getOrderId());
 
 		repo.save(eventStore);
 	}
@@ -141,6 +155,8 @@ public class EventService {
 		eventStore.setEventOf(event.getPaymentDetails().getEventOf());
 
 		eventStore.setEventTime(LocalDateTime.now());
+		
+		eventStore.setOrderId(event.getPaymentDetails().getOrderId());
 
 		repo.save(eventStore);
 	}
@@ -156,6 +172,8 @@ public class EventService {
 		eventStore.setEventOf(event.getShipmentDetails().getEventOf());
 
 		eventStore.setEventTime(LocalDateTime.now());
+		
+		eventStore.setOrderId(event.getShipmentDetails().getOrderId());
 
 		repo.save(eventStore);
 	}
@@ -171,8 +189,16 @@ public class EventService {
 		eventStore.setEventOf(event.getShipmentDetails().getEventOf());
 
 		eventStore.setEventTime(LocalDateTime.now());
+		
+		eventStore.setOrderId(event.getShipmentDetails().getOrderId());
 
 		repo.save(eventStore);
+	}
+	
+	public Iterable<EventStore> fetchByOrderId(Long id) {
+
+		return repo.findByOrderId(id);
+
 	}
 	
 	public Iterable<EventStore> fetchAllEvents(String name) {

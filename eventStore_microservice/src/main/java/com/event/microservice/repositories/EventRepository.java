@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public interface EventRepository extends JpaRepository<EventStore, Long>{
+	
+	Iterable<EventStore> findByOrderId(Long eventOf);
 
 	Iterable<EventStore> findByEventOf(String eventOf);
 	

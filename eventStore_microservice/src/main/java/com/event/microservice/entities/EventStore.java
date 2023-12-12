@@ -17,6 +17,8 @@ public class EventStore {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long eventId;
 
+	private long orderId;
+	
 	private String eventType;
 
 	private String eventOf;
