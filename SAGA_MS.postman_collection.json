@@ -1,0 +1,382 @@
+{
+	"info": {
+		"_postman_id": "66b801ed-2fac-4075-83e3-e6947f87add9",
+		"name": "SAGA_MS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13022158"
+	},
+	"item": [
+		{
+			"name": "Create Inventory",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"item\":\"books\",\r\n    \"quantity\":200,\r\n    \"user\":\"KKI\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8082/inventory",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"inventory"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Inventory By Gateway",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"item\":\"toothpaste\",\r\n    \"quantity\":100,\r\n    \"user\":\"KKI\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9090/inventory",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"inventory"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Place Orders",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"item\":\"books\",\r\n    \"quantity\":10,\r\n    \"amount\":2000,\r\n    \"address\":\"Lucknow\",\r\n    \"paymentMode\":\"CreditCard\",\r\n    \"user\":\"KKO\"\r\n    \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/orders",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Place Orders By Gateway",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"item\":\"books\",\r\n    \"quantity\":10,\r\n    \"amount\":2000,\r\n    \"address\":\"Lucknow\",\r\n    \"paymentMode\":\"CreditCard\",\r\n    \"user\":\"KKO\"\r\n    \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9090/orders",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Place Orders Fail in payment not impl",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"item\":\"shoes\",\r\n    \"quantity\":10,\r\n    \"amount\":2000,\r\n    \"address\":\"Lucknow\",\r\n    \"paymentMode\":\"Credit Card\"\r\n    \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/orders",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Place Orders Fail in Inventory",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"item\":\"shoes\",\r\n    \"quantity\":10,\r\n    \"amount\":2000,\r\n    \"address\":\"Lucknow\",\r\n    \"paymentMode\":\"Credit Card\"\r\n    \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/orders",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Place Orders Fail in Inventory By Gateway",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"item\":\"shoes\",\r\n    \"quantity\":10,\r\n    \"amount\":2000,\r\n    \"address\":\"Lucknow\",\r\n    \"paymentMode\":\"CreditCard\",\r\n    \"user\":\"KKI\"\r\n    \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9090/orders",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Place Orders Fail in Shipment",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"item\":\"books\",\r\n    \"quantity\":10,\r\n    \"amount\":2000,\r\n\r\n    \"paymentMode\":\"CreditCard\"\r\n    \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/orders",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Place Orders Fail in Shipment By Gateway",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"item\":\"books\",\r\n    \"quantity\":10,\r\n    \"amount\":2000,\r\n\r\n    \"paymentMode\":\"CreditCard\",\r\n    \"user\":\"KKS\"\r\n    \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9090/orders",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CardService Refresh",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8084/actuator/refresh",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8084",
+					"path": [
+						"actuator",
+						"refresh"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "STOCK by EventService",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9070/events?name=STOCK",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9070",
+					"path": [
+						"events"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "STOCK"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PAYMENT by EventService",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9070/events?name=PAYMENT",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9070",
+					"path": [
+						"events"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "PAYMENT"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ORDER by EventService",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9070/events?name=ORDER",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9070",
+					"path": [
+						"events"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "ORDER"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SHIPMENT by EventService",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9070/events?name=SHIPMENT",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9070",
+					"path": [
+						"events"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "SHIPMENT"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
