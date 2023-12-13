@@ -3,14 +3,13 @@ package com.event.microservice.controllers;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import com.event.microservice.dto.CustomerOrder;
+import com.event.microservice.dto.Payment;
 import com.event.microservice.dto.Shipment;
 import com.event.microservice.dto.Stock;
 import com.event.microservice.entities.EventStore;
@@ -132,6 +131,67 @@ public class EventController {
 		return customerOrder;
 	}
 
+	@GetMapping("/payments")
+	public Double getTotalPayments(@RequestParam("type") String type) throws JsonProcessingException {
+
+		Iterable<EventStore> events = eventService.fetchAllEvents("PAYMENT");
+		Double totalSPayment = 0.0;
+		Double totalFPayment = 0.0;
+
+		for (EventStore event : events) {
+
+			Payment payment = new Gson().fromJson(event.getEventData(), Payment.class);
+
+			if (event.getEventType().equals("PAYMENT_SUCCESS")) {
+
+				totalSPayment = totalSPayment + payment.getAmount();				
+
+			} else if (event.getEventType().equals("PAYMENT_FAILURE")) {
+				
+				totalFPayment = totalFPayment + payment.getAmount();
+				
+			} else if(event.getEventType().equals("PAYMENT_REVERSED")) {
+				
+				totalSPayment = totalSPayment - payment.getAmount();
+				totalFPayment = totalFPayment + payment.getAmount();
+			}
+		}
+
+		if (type.equalsIgnoreCase("success"))
+			return totalSPayment;
+		else
+			return totalFPayment;
+
+	}
+	
+	@GetMapping("/payments/history")
+	public Double getPaymentskUntilDate(@RequestParam("date") String date, @RequestParam("type") String type)	throws JsonProcessingException {
+
+		String[] dateArray = date.split("-");
+
+		LocalDateTime dateTill = LocalDate.of(Integer.parseInt(dateArray[0]), Integer.parseInt(dateArray[1]), Integer.parseInt(dateArray[2])).atTime(23, 59);
+
+		Iterable<EventStore> events = eventService.fetchAllEventsTillDate("PAYMENT", dateTill);
+		
+		Double totalPayment = 0.0;
+		
+		for (EventStore event : events) {
+
+			Payment payment = new Gson().fromJson(event.getEventData(), Payment.class);
+
+			if (type.equalsIgnoreCase("success") && event.getEventType().equals("PAYMENT_SUCCESS")) {
+
+				totalPayment = totalPayment + payment.getAmount();
+
+			} else if (type.equalsIgnoreCase("failure") && event.getEventType().equals("ORDER_REMOVED")) {
+
+				totalPayment = totalPayment + payment.getAmount();
+			}
+		}
+
+		return totalPayment;
+	}
+	
 	@GetMapping("/stock")
 	public Stock getstockOf(@RequestParam("name") String name) throws JsonProcessingException {
 

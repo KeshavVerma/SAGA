@@ -279,24 +279,29 @@
 			"response": []
 		},
 		{
-			"name": "STOCK by EventService",
+			"name": "Item STOCK by EventService",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:9070/events?name=STOCK",
+					"raw": "http://localhost:9070/stock?name=toothpaste",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "9070",
 					"path": [
-						"events"
+						"stock"
 					],
 					"query": [
 						{
 							"key": "name",
-							"value": "STOCK"
+							"value": "books",
+							"disabled": true
+						},
+						{
+							"key": "name",
+							"value": "toothpaste"
 						}
 					]
 				}
@@ -304,24 +309,24 @@
 			"response": []
 		},
 		{
-			"name": "PAYMENT by EventService",
+			"name": "Full STOCK by EventService",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:9070/events?name=PAYMENT",
+					"raw": "http://localhost:9070/stock?name=books",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "9070",
 					"path": [
-						"events"
+						"stock"
 					],
 					"query": [
 						{
 							"key": "name",
-							"value": "PAYMENT"
+							"value": "books"
 						}
 					]
 				}
@@ -329,24 +334,29 @@
 			"response": []
 		},
 		{
-			"name": "ORDER by EventService",
+			"name": "Item History STOCK by EventService",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:9070/events?name=ORDER",
+					"raw": "http://localhost:9070/stock/history?date=2023-12-10&name=books",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "9070",
 					"path": [
-						"events"
+						"stock",
+						"history"
 					],
 					"query": [
 						{
+							"key": "date",
+							"value": "2023-12-10"
+						},
+						{
 							"key": "name",
-							"value": "ORDER"
+							"value": "books"
 						}
 					]
 				}
@@ -359,19 +369,149 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:9070/events?name=SHIPMENT",
+					"raw": "http://localhost:9070/shipments?type=SHIPMENT_SUCCESS",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "9070",
 					"path": [
-						"events"
+						"shipments"
 					],
 					"query": [
 						{
-							"key": "name",
-							"value": "SHIPMENT"
+							"key": "type",
+							"value": "SHIPMENT_SUCCESS"
+						},
+						{
+							"key": "type",
+							"value": "SHIPMENT_FAILURE",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SHIPMENT History by EventService",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9070/shipments/history?type=SHIPMENT_SUCCESS&date=2023-12-12",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9070",
+					"path": [
+						"shipments",
+						"history"
+					],
+					"query": [
+						{
+							"key": "type",
+							"value": "SHIPMENT_SUCCESS"
+						},
+						{
+							"key": "type",
+							"value": "SHIPMENT_FAILURE",
+							"disabled": true
+						},
+						{
+							"key": "date",
+							"value": "2023-12-12"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Order by EventService",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9070/orders?type=Success",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9070",
+					"path": [
+						"orders"
+					],
+					"query": [
+						{
+							"key": "type",
+							"value": "failure",
+							"disabled": true
+						},
+						{
+							"key": "type",
+							"value": "Success"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Order by ID EventService",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9070/orders?type=Success",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9070",
+					"path": [
+						"orders"
+					],
+					"query": [
+						{
+							"key": "type",
+							"value": "failure",
+							"disabled": true
+						},
+						{
+							"key": "type",
+							"value": "Success"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Payments by EventService",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9070/payments?type=success",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9070",
+					"path": [
+						"payments"
+					],
+					"query": [
+						{
+							"key": "type",
+							"value": "failure",
+							"disabled": true
+						},
+						{
+							"key": "type",
+							"value": "success"
 						}
 					]
 				}
