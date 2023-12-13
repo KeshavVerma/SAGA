@@ -158,6 +158,43 @@ public class EventController {
 	    return currentStock;
 	}
 	
+	@GetMapping("/stocks")
+	public List<Stock> getTotalstock() throws JsonProcessingException {
+
+		Iterable<EventStore> events = eventService.fetchAllEvents("STOCK");
+		
+		Map<String,Stock> stockMap = new HashMap<>();
+		
+		Stock currentStock = null;
+
+	    for (EventStore event : events) {
+	 
+	        Stock stock = new Gson().fromJson(event.getEventData(), Stock.class);
+	        currentStock = new Stock();
+	        
+	        if (stockMap.containsKey(stock.getItem()) && event.getEventType().equals("STOCK_ADDED")) {
+	        	
+	        	currentStock.setItem(stock.getItem());
+	            currentStock.setQuantity(stockMap.get(stock.getItem()).getQuantity() + stock.getQuantity());
+	            
+	        } else if (stockMap.containsKey(stock.getItem()) && event.getEventType().equals("STOCK_REMOVED")) {
+	        	
+	        	currentStock.setItem(stock.getItem());
+	        	currentStock.setQuantity(stockMap.get(stock.getItem()).getQuantity() - stock.getQuantity());
+	            
+	        } else if(!stockMap.containsKey(stock.getItem())) {
+	        	
+	        	currentStock.setItem(stock.getItem());
+	        	currentStock.setQuantity(stock.getQuantity());
+	        }
+	        
+	        stockMap.put(stock.getItem(),currentStock);
+	    }
+	 
+	    return stockMap.values().stream().collect(Collectors.toList());
+	}
+	
+
 	@GetMapping("/stock/history")
 	public Stock getStockUntilDate(@RequestParam("date") String date,@RequestParam("name") String name) throws JsonProcessingException {
 	 
