@@ -242,7 +242,7 @@ public class EventController {
 	        	currentStock.setItem(stock.getItem());
 	        	currentStock.setQuantity(stockMap.get(stock.getItem()).getQuantity() - stock.getQuantity());
 	            
-	        } else if(!stockMap.containsKey(stock.getItem())) {
+	        } else if(!stockMap.containsKey(stock.getItem()) && !event.getEventType().equals("STOCK_FAILURE")) {
 	        	
 	        	currentStock.setItem(stock.getItem());
 	        	currentStock.setQuantity(stock.getQuantity());
@@ -251,7 +251,7 @@ public class EventController {
 	        stockMap.put(stock.getItem(),currentStock);
 	    }
 	 
-	    return stockMap.values().stream().collect(Collectors.toList());
+	    return stockMap.values().stream().filter(e->e.getItem()!=null).collect(Collectors.toList());
 	}
 	
 
