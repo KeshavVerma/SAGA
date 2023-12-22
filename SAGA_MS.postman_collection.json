@@ -459,6 +459,37 @@
 			"response": []
 		},
 		{
+			"name": "Order by WebClient",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9071/webclient/orders?type=Success",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9071",
+					"path": [
+						"webclient",
+						"orders"
+					],
+					"query": [
+						{
+							"key": "type",
+							"value": "Success"
+						},
+						{
+							"key": "type",
+							"value": "failure",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Order by ID EventService",
 			"request": {
 				"method": "GET",

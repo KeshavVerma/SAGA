@@ -1,5 +1,7 @@
 package com.order.microservice.controllers;
 
+import javax.transaction.Transactional;
+
 import com.order.microservice.dto.CustomerOrder;
 import com.order.microservice.entities.OrderEntity;
 import com.order.microservice.events.OrderEvent;
@@ -29,6 +31,7 @@ public class OrderController {
     @Autowired
     private KafkaTemplate<String, OrderEvent> kafkaTemplate;
 
+    @Transactional
     @PostMapping("/orders")
     public ResponseEntity<?> createOrder(@RequestBody CustomerOrder customerOrder) {
 

@@ -1,5 +1,7 @@
 package com.cqrs.sync.tables;
 
+import javax.transaction.Transactional;
+
 import com.cqrs.sync.entities.Inventory;
 import com.cqrs.sync.events.InventoryEvent;
 import com.cqrs.sync.repositories.InventoryRepository;
@@ -15,6 +17,7 @@ public class SynchTablesData {
 	@Autowired
 	InventoryRepository repository;
 
+	@Transactional
 	@KafkaListener(topics = "new-inventory", groupId = "newinventory-group")
 	public void syncInventoryTables(String event) {
 
@@ -32,6 +35,7 @@ public class SynchTablesData {
 
 	}
 
+	@Transactional
 	@KafkaListener(topics = "update-inventory", groupId = "updateinventory-group")
 	public void syncInvetoryTables(String event) {
 
@@ -69,7 +73,7 @@ public class SynchTablesData {
 		}
 	}
 	
-	
+	@Transactional
 	@KafkaListener(topics = "reversed-inventory", groupId = "reversinventory-group")
 	public void syncRInvetoryTables(String event) {
 

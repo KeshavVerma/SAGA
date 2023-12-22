@@ -1,5 +1,7 @@
 package com.inventory.microservice.controllers;
 
+import javax.transaction.Transactional;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -35,6 +37,7 @@ public class InventoryController {
     @Autowired
     private KafkaTemplate<String, PaymentEvent> kafkaPaymentTemplate;
 
+    @Transactional
     @KafkaListener(topics = "new-payments", groupId = "payments-group")
     public void updateInventory(String paymentEvent) throws JsonMappingException, JsonProcessingException {
     	
@@ -79,6 +82,7 @@ public class InventoryController {
 
     }
 
+    @Transactional
     @PostMapping("/inventory")
     public void addInventory(@RequestBody Stock stock) {
 

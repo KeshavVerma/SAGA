@@ -1,5 +1,7 @@
 package com.payment.microservice.controllers;
 
+import javax.transaction.Transactional;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,6 +38,7 @@ public class PaymentController {
     @Autowired
     private FeignApiClient feignApiClient;
 
+    @Transactional
     @KafkaListener(topics = "new-orders", groupId = "orders-group")
     public void processPayment(String event) throws JsonMappingException, JsonProcessingException {
 

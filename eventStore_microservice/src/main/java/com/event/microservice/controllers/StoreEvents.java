@@ -1,5 +1,7 @@
 package com.event.microservice.controllers;
 
+import javax.transaction.Transactional;
+
 import com.event.microservice.dto.CustomerOrder;
 import com.event.microservice.dto.Payment;
 import com.event.microservice.dto.Shipment;
@@ -18,8 +20,6 @@ import com.event.microservice.events.StockAddedEvent;
 import com.event.microservice.events.StockFailureEvent;
 import com.event.microservice.events.StockRemovedEvent;
 import com.event.microservice.services.EventService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -110,6 +110,7 @@ public class StoreEvents {
 
 	}
 
+	@Transactional
 	@KafkaListener(topics = "reversed-orders", groupId = "reversorders-group")
 	public void reverseOrderEvent(String event) {
 

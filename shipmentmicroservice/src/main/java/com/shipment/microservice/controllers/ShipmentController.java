@@ -1,5 +1,7 @@
 package com.shipment.microservice.controllers;
 
+import javax.transaction.Transactional;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,6 +30,7 @@ public class ShipmentController {
     @Autowired
     private KafkaTemplate<String, InventoryEvent> kafkaTemplate;
 
+    @Transactional
     @KafkaListener(topics = "update-inventory", groupId = "inventory-group")
     public void shipOrder(String event) throws JsonMappingException, JsonProcessingException {
     	
