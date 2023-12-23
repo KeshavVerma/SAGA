@@ -20,6 +20,10 @@ spring:
       uri: lb://CREDITCARD-SERVICE
       predicates:
        - Path=/cards/**
+    - id: webClient
+      uri: lb://WEBCLIENT-SERVICE
+      predicates:
+       - Path=/webclient/orders/**       
 #Read below property from Config Server
 #eureka:
 #   client:

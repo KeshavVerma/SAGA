@@ -22,14 +22,21 @@ public class WebclientController {
 	
 	@Autowired
 	private WebClient webClient;
+	
+	@Autowired
+	private WebClient.Builder webClientBuilder;
 
 	@GetMapping("/orders")
 	public ResponseEntity<?> getOrders(@RequestParam String type) {
 		// not working below due to array coming in response json
 //		CustomerOrder orders = webClient.get().uri("/orders?type=Success").retrieve().bodyToMono(CustomerOrder.class).block();	
 //		System.out.println(orders);
-		// this is working
-		Mono<List<CustomerOrder>> orders = webClient.get().uri("/orders?type="+type).retrieve().bodyToMono(new ParameterizedTypeReference<List<CustomerOrder>>(){});
+		
+		// this is working by full URL with host name and port number
+		//Mono<List<CustomerOrder>> orders = webClient.get().uri("/orders?type="+type).retrieve().bodyToMono(new ParameterizedTypeReference<List<CustomerOrder>>(){});
+		
+		// this is working by Service Name
+		Mono<List<CustomerOrder>> orders = webClientBuilder.build().get().uri("/orders?type="+type).retrieve().bodyToMono(new ParameterizedTypeReference<List<CustomerOrder>>(){});
 		List<CustomerOrder> orderList = orders.block();
 //		System.out.println(orderList);
 		// if want in Array
